@@ -9,21 +9,25 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class RegistroDZoneTest {
     
     private WebDriver driver;
     
-    //@BeforeTest
+    @BeforeTest
     public void setDriver() throws Exception{
         
-        String path = "/Users/gustavo/Downloads/chromedriver95";
-        
-        System.setProperty("webdriver.chrome.driver", path);
-        driver = new ChromeDriver();
+    	 String path = "/Users/gustavo/Downloads/chromedriver102";
+         
+         System.setProperty("webdriver.chrome.driver", path);
+         
+         WebDriverManager.chromedriver().setup();
+         driver = new ChromeDriver();
         
     }
     
-    //@Test
+    @Test
     public void verificarMensajeErrorAlRegistrar(){
         
         //Preparacion de la prueba
@@ -31,6 +35,7 @@ public class RegistroDZoneTest {
         driver.get(dzoneUrl);
         
         //Logica de la prueba
+        
         WebElement joinLink = driver.findElement(By.xpath("//*[@id=\"ng-app\"]/body/div[2]/div/div/div[1]/div/div[2]/div[2]/a[2]"));
         String linkText = joinLink.getText();
         
@@ -67,17 +72,27 @@ public class RegistroDZoneTest {
         
         System.out.println("Se muestra el icono? "+iconAlert.isDisplayed());
         
+        //Validar el mensaje del correo
         WebElement emailErrorMessage = driver.findElement(By.xpath("//div[@data-validate=\"Please enter a valid email address\"]"));
         String attribute = emailErrorMessage.getAttribute("data-validate");
-        System.out.println("attribute::: "+attribute);
+        System.out.println("Valor del attribute::: "+attribute);
         
         Assert.assertEquals("Please enter a valid email address", attribute);
         
+        //Validar el mensaje del username
+        iconAlert = driver.findElement(By.xpath("//*[@id=\"login\"]/div/div[2]/div[1]/div[2]/form/div[2]/span[2]/i"));
+        Assert.assertEquals(true, iconAlert.isDisplayed());
+        
+        WebElement usernameErrorMessage = driver.findElement(By.xpath("//div[@data-validate=\"Please enter a valid username\"]"));
+        attribute = usernameErrorMessage.getAttribute("data-validate");
+        System.out.println("Valor del attribute::: "+attribute);
+        
+        Assert.assertEquals("Please enter a valid username", attribute);
     }
     
     
     
-    //@AfterTest
+    @AfterTest
     public void closeDriver() throws Exception{
         driver.quit();
     }

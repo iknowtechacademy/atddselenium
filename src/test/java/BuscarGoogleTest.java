@@ -34,8 +34,9 @@ public class BuscarGoogleTest {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
 
+        //WebDriverManager.firefoxdriver().setup();
+        //driver = new FirefoxDriver(); //Creating an object of FirefoxDriver
         
-        //WebDriver driver = new FirefoxDriver(); //Creating an object of FirefoxDriver
         /*driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
@@ -56,7 +57,7 @@ public class BuscarGoogleTest {
         WebElement campoBusqueda = driver.findElement(By.name("q"));
         
         //2. Escribir el criterio de busqueda
-        campoBusqueda.sendKeys("UCB");
+        campoBusqueda.sendKeys("Universidad Catolica Boliviana");
         
         
         //3. Mandar peticion
@@ -75,8 +76,9 @@ public class BuscarGoogleTest {
         
         
         String label = resultado.getText();
+        System.out.println("Texto del resultado:: "+label);
         
-        Assert.assertEquals("Universidad Católica Boliviana \"San Pablo\" Regional La Paz", label);
+        Assert.assertEquals("Universidade Católica Boliviana San Pablo (Universidad Católica Boliviana \"San Pablo\" Regional La Paz)", label);
         
     }
     
